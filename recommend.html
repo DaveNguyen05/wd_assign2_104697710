@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Get personalised restaurant recommendations on Dine Out Melbourne">
+        <meta name="keywords" content="Melbourne, restaurant recommendation, dining, food, preferences">
+        <meta name="author" content="Dave Nguyen">
+        <link href="css/style.css" rel="stylesheet">
+        <title>Recommend - Dine Out Melbourne</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="heading">
+                <a href="index.html">
+                    <img src="images/Logo.png" alt="Dine Out Melbourne logo">
+                </a>
+                <h1>Dine Out Melbourne</h1>
+            </div>
+            
+            <nav class="menubar"> <!--"active" class marks Recommend as the current page-->
+                <a href="index.html">Home</a>
+                <a href="restaurants.html">Restaurants</a>
+                <a href="recommend.html" class="active">Recommend</a>
+                <a href="register.html">Register</a>
+                <a href="reservation.html">Reservations</a>
+            </nav>
+        </header>
+
+        <div class="bg-image"></div>
+
+        <!--Main-->
+        <main>
+            <div class="bg-text">
+                <h2>Find The Right Restaurant</h2>
+                <hr>
+                <p>
+                    Not sure where to eat? Tell us about your dietary needs, budget, and the
+                    occasion — our recommendation engine will match you with the best restaurants
+                    on our platform.
+                </p>
+
+                <!--Recommendation Form-->
+                <section>
+                    <h3>Your Preferences</h3>
+                    <!--
+                        All logic for this form is handled in js/script.js — getRecommendations().
+                        The function reads the values of #diet, input[name="budget"], and #purpose,
+                        applies scoring rules against the restaurant database, then renders
+                        matched results inside #recommendation-results.
+                    -->
+                    <form id="recommend-form" class="form-container" novalidate>
+                        <div class="form-group"> <!--Dietary Preference-->
+                            <label for="diet">Dietary Preference</label>
+                            <select id="diet" name="diet">
+                                <option value="none">No Restrictions</option>
+                                <option value="vegan">Vegan</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="halal">Halal</option>
+                            </select>
+                        </div>
+
+                        <!--Budget Range — radio buttons so all options are visible at a glance-->
+                        <div class="form-group">
+                            <label>Budget Range <em>(per person)</em></label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="budget" value="budget" checked>
+                                    Budget: Under $40
+                                </label>
+                                <label>
+                                    <input type="radio" name="budget" value="moderate">
+                                    Moderate: $40 to $80
+                                </label>
+                                <label>
+                                    <input type="radio" name="budget" value="premium">
+                                    Premium: $80 and above
+                                </label>
+                            </div>
+                        </div>
+
+                        <!--Dining Options-->
+                        <div class="form-group">
+                            <label for="purpose">Dining Purpose</label>
+                            <select id="purpose" name="purpose">
+                                <option value="casual">Casual / Family Outing</option>
+                                <option value="business">Business / Professional</option>
+                                <option value="street">Quick Meal / Street Food</option>
+                            </select>
+                        </div>
+
+                        <!--Error message shown by js if something goes wrong-->
+                        <p id="recommend-error" class="error-msg"
+                           style="font-size:14px; margin-bottom:10px;">
+                        </p>
+
+                        <!--type="button" prevents default form submission; js handles everything-->
+                        <button type="button" class="btn" onclick="getRecommendations()">
+                            Find My Restaurant!
+                        </button>
+                    </form>
+                </section>
+
+                <!--Recommendation Results-->
+                <!--This section is hidden (display:none via CSS) on page load.
+                    js/script.js sets it to display:block and shows the matched
+                    restaurant cards with "Book This Restaurant" links (button) after the
+                    user clicks Find My Restaurant button-->
+                <section id="recommendation-results">
+                    <hr>
+                    <h3 id="results-heading">Your Matches</h3>
+                    <p id="results-summary"></p>
+
+                    <!--js show recommended list here-->
+                    <div id="results-container"></div>
+                </section>
+            </div>
+        </main>
+
+        <!--Footer-->
+        <footer>
+            <hr>
+            <span class="footer-contact">
+                Created by: <a href="mailto:104697710@student.swin.edu.au">Dave Nguyen</a>
+            </span>
+            <span class="footer-txt">
+                <em>DineOut Melbourne &copy; 2026</em>
+            </span>
+        </footer>
+        <script src="js/script.js"></script>
+    </body>
+</html>
