@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Reserve a table at your favourite Melbourne restaurant on Dine Out Melbourne">
+        <meta name="keywords" content="Melbourne, reservation, book a table, restaurant, dining">
+        <meta name="author" content="Dave Nguyen">
+        <link href="css/style.css" rel="stylesheet">
+        <title>Reservations - Dine Out Melbourne</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="heading">
+                <a href="index.html">
+                    <img src="images/Logo.png" alt="Dine Out Melbourne logo">
+                </a>
+                <h1>Dine Out Melbourne</h1>
+            </div>
+
+            <nav class="menubar">
+                <a href="index.html">Home</a>
+                <a href="restaurants.html">Restaurants</a>
+                <a href="recommend.html">Recommend</a>
+                <a href="register.html">Register</a>
+                <a href="reservation.html" class="active">Reservations</a>
+            </nav>
+        </header>
+
+        <div class="bg-image"></div>
+
+        <!--Main-->
+        <main>
+            <div class="bg-text">
+                <h2>Make a Reservation</h2>
+                <hr>
+                <p>
+                    Complete the form below to reserve your table.
+                </p>
+
+                <section>
+                    <!--All rules are enforced by validateReservationForm() in js/script.js, which returns false to
+                        block submission if any field is invalid.
+                        On page load, script.js also reads the '?restaurant= URL' query parameter
+                        (set by the Reserve buttons on restaurants.html, recommend.html, and
+                        index.html) and pre-fills the restaurant dropdown automatically.-->
+                    <form id="reservation-form" method="post" 
+                          action="http://mercury.swin.edu.au/it104697710/cos10005/regtest.php"
+                          novalidate>
+                          <!--method="post" and action pointing to the Mercury test server as required-->
+
+                        <!--Personal Details-->
+                        <h3>Your Details</h3>
+                        <hr>
+                        <!--Full Name-->
+                        <div class="form-group">
+                            <label for="res-name">Full Name</label>
+                            <input type="text" id="res-name" name="fullname"
+                                   placeholder="e.g. Dave Nguyen"
+                                   autocomplete="name">
+                            <span class="error-msg" id="err-res-name">
+                                Full name is required.
+                            </span>
+                        </div>
+
+                        <!--Email Address-->
+                        <div class="form-group">
+                            <label for="res-email">Email Address</label>
+                            <input type="email" id="res-email" name="email"
+                                   placeholder="e.g. dave@example.com"
+                                   autocomplete="email">
+                            <span class="error-msg" id="err-res-email">
+                                Please enter a valid email address.
+                            </span>
+                        </div>
+
+                        <!--Phone Number-->
+                        <div class="form-group">
+                            <label for="res-phone">Phone Number</label>
+                            <input type="tel" id="res-phone" name="phone"
+                                   placeholder="e.g. 0412345678"
+                                   autocomplete="tel">
+                            <span class="error-msg" id="err-res-phone">
+                                Phone number must contain at least 10 digits.
+                            </span> <!--Rule: at least 10 digits-->
+                        </div>
+
+                        <!--Booking Details-->
+                        <h3 style="margin-top:20px;">Booking Details</h3>
+                        <hr>
+                        <!--Restaurant Selection, data-deposit on each option stores the deposit amount in dollars.
+                            js reads this via updateDeposit() whenever the selection changes.
+                            On page load, js also checks window.location.search for ?restaurant=
+                            and sets this dropdown's value to match, then calls updateDeposit().
+                            Users can always change their selection here-->
+                        <div class="form-group">
+                            <label for="res-restaurant">Restaurant</label>
+                            <select id="res-restaurant" name="restaurant"
+                                    onchange="updateDeposit()">
+                                <option value="">-- Select a restaurant --</option>
+                                <option value="Supernormal" data-deposit="25">
+                                    Supernormal
+                                </option>
+                                <option value="Vue de monde" data-deposit="50">
+                                    Vue de monde
+                                </option>
+                                <option value="Chin Chin" data-deposit="20">
+                                    Chin Chin
+                                </option>
+                                <option value="Tipo 00" data-deposit="20">
+                                    Tipo 00
+                                </option>
+                                <option value="Flower Drum" data-deposit="30">
+                                    Flower Drum
+                                </option>
+                                <option value="Mamasita" data-deposit="15">
+                                    Mamasita
+                                </option>
+                            </select>
+                            <span class="error-msg" id="err-res-restaurant">
+                                Please select a restaurant.
+                            </span>
+                        </div>
+
+                        <!--Reservation Date and Time (side by side on desktop)-->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="res-date">Reservation Date</label>
+                                <!--min attribute is set to today's date by js on page load
+                                    so the date picker prevents past dates in the UI.
+                                    js also validates this on submit-->
+                                <input type="date" id="res-date" name="date">
+                                <span class="error-msg" id="err-res-date">
+                                    Please select a date that is not in the past.
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="res-time">Reservation Time</label>
+                                <input type="time" id="res-time" name="time"
+                                       min="09:00" max="22:00">
+                                <span class="error-msg" id="err-res-time">
+                                    Please select a time between 9:00 AM and 10:00 PM.
+                                </span>
+                            </div>
+                        </div>
+
+                        <!--Number of People-->
+                        <div class="form-group">
+                            <label for="res-people">Number of People</label>
+                            <input type="number" id="res-people" name="people"
+                                   min="1" placeholder="e.g. 2">
+                            <span class="error-msg" id="err-res-people">
+                                Number of people must be at least 1.
+                            </span> <!--Rule: must be greater than 0-->
+                        </div>
+
+                        <!--Special Requests (optional — no validation required)-->
+                        <div class="form-group">
+                            <label for="res-special">
+                                Special Requests <em>(optional)</em>
+                            </label>
+                            <textarea id="res-special" name="special"
+                                      placeholder="e.g. Window table, high chair needed, birthday celebration, dietary notes...">
+                            </textarea>
+                        </div>
+
+                        <!--Deposit & Payment-->
+                        <h3 style="margin-top:20px;">Deposit & Payment</h3>
+                        <hr>
+                        <!--Deposit Amount display.
+                            The deposit-info div shows a human-readable message updated by
+                            updateDeposit() in script.js whenever the restaurant changes.
+                            The hidden input stores the numeric value for form submission-->
+                        <div class="form-group">
+                            <label>Deposit Amount</label>
+                            <div class="deposit-info" id="deposit-display">
+                                Select a restaurant above to see the required deposit.
+                            </div>
+                            <input type="hidden" id="res-deposit" name="deposit" value="">
+                        </div>
+
+                        <!--Deposit Method-->
+                        <div class="form-group">
+                            <label>Deposit Method</label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="deposit-method" value="voucher"
+                                           onchange="togglePaymentFields()"> <!--onchange calls togglePaymentFields() in script.js,
+                                                                                which shows #voucher-section and hides #card-section-->
+                                    Voucher
+                                </label>
+                                <label>
+                                    <input type="radio" name="deposit-method" value="online"
+                                           onchange="togglePaymentFields()"> <!--onchange calls togglePaymentFields() in script.js,
+                                                                                which shows #card-section and hides #voucher-section-->
+                                    Online Payment
+                                </label>
+                            </div>
+                            <span class="error-msg" id="err-deposit-method">
+                                Please select a deposit payment method.
+                            </span>
+                        </div>
+
+                        <!--Voucher Section — hidden by default (class="hidden").
+                            Shown by togglePaymentFields() when "Voucher" is selected.
+                            No validation required on the voucher code, just a 12-digit textbox-->
+                        <div id="voucher-section" class="hidden">
+                            <div class="form-group">
+                                <label for="res-voucher">Voucher Code</label>
+                                <input type="text" id="res-voucher" name="voucher"
+                                       placeholder="Enter your 12-digit voucher code"
+                                       maxlength="12">
+                                <span class="error-msg" id="err-voucher">
+                                    Please enter your 12-digit voucher code.
+                                </span>
+                            </div>
+                        </div>
+
+                        <!--Card Section — hidden by default (class="hidden").
+                            Shown by togglePaymentFields() when "Online Payment" is selected.
+                            updateCardPlaceholder() in script.js adjusts maxlength 
+                            and placeholder text when the card type select changes-->
+                        <div id="card-section" class="hidden">
+                            <div class="form-group">
+                                <label for="res-card-type">Card Type</label>
+                                <select id="res-card-type" name="card-type"
+                                        onchange="updateCardPlaceholder()">
+                                    <option value="">-- Select card type --</option>
+                                    <option value="visa">Visa (16 digits)</option>
+                                    <option value="mastercard">Mastercard (16 digits)</option>
+                                    <option value="amex">American Express (15 digits)</option>
+                                </select>
+                                <span class="error-msg" id="err-card-type">
+                                    Please select a card type.
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="res-card-number">Card Number</label>
+                                <!--maxlength and placeholder are updated by
+                                    updateCardPlaceholder() based on the selected card type-->
+                                <input type="text" id="res-card-number" name="card-number"
+                                       placeholder="Enter card number" maxlength="16">
+                                <span class="error-msg" id="err-card-number">
+                                    Please enter a valid card number
+                                    (Visa/Mastercard: 16 digits, Amex: 15 digits).
+                                </span>
+                            </div>
+                        </div>
+
+                        <!--Billing Email-->
+                        <div class="form-group">
+                            <label for="res-billing-email">Billing Email Address</label>
+                            <!--"Same as email address" checkbox.
+                                When checked, copyEmail() in script.js copies the value from
+                                #res-email into #res-billing-email and makes it readonly.
+                                When unchecked, the field is cleared and made editable again.-->
+                            <label style="font-weight:normal; display:flex; align-items:center;
+                                          gap:6px; cursor:pointer; margin-bottom:6px;">
+                                <input type="checkbox" id="same-email" onchange="copyEmail()">
+                                Same as email address above
+                            </label>
+
+                            <input type="email" id="res-billing-email" name="billing-email"
+                                   placeholder="e.g. billing@example.com"
+                                   autocomplete="email">
+                            <span class="error-msg" id="err-billing-email">
+                                Please enter a valid billing email address.
+                            </span>
+                        </div>
+
+                        <!--Submit Button-->
+                        <!--type="submit" allows the form to POST to the Mercury server.
+                            onclick="return validateReservationForm()" calls the js validator —
+                            if it returns false, submission is blocked and errors are shown;
+                            if it returns true, the form posts normally to the action URL-->
+                        <div class="form-group" style="margin-top:10px;">
+                            <button type="submit" class="btn"
+                                    onclick="return validateReservationForm()">
+                                Confirm Reservation
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </main>
+
+        <!--Footer-->
+        <footer>
+            <hr>
+            <span class="footer-contact">
+                Created by: <a href="mailto:104697710@student.swin.edu.au">Dave Nguyen</a>
+            </span>
+            <span class="footer-txt">
+                <em>DineOut Melbourne &copy; 2026</em>
+            </span>
+        </footer>
+        <script src="js/script.js"></script>
+    </body>
+</html>
