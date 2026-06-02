@@ -23,11 +23,8 @@ assignment2/
 │   └── restaurant6.jpg     # Mamasita
 └── Readme.txt     # Details refer to Submission Requirements
 
-**2. GITHUB REPOSITORY LINK**
-  *https://davenguyen05.github.io/wd_assign2_104697710/*
-
-**3. EXPLANATION OF JAVASCRIPT VALIDATION LOGIC**
-  3a. SHARED UTILITY FUNCTIONS
+**2. EXPLANATION OF JAVASCRIPT VALIDATION LOGIC**
+  2a. SHARED UTILITY FUNCTIONS
   Two helper functions are used throughout the file to keep the validation code clean and avoid repetition:
 
   - showError(inputId, errorId)
@@ -41,7 +38,7 @@ assignment2/
       Tests an email string against a regular expression that checks for the pattern: characters @ characters. two-or-more-characters.
       Returns true if the format is valid, false otherwise.
 
-  **3b. REGISTRATION FORM VALIDATION — validateRegisterForm()**
+  **2b. REGISTRATION FORM VALIDATION — validateRegisterForm()**
   Triggered by the "Create Account" button (type="button", no page reload).
   Checks each field in order and calls showError or clearError for each one.
   A boolean variable "valid" starts as true and is set to false whenever any
@@ -68,7 +65,7 @@ assignment2/
 
   - Country: The select element's value must not be the empty string (the placeholder "-- Select your country --" option).
 
-  **3c. RESERVATION PAGE INITIALISATION — initReservationPage()**
+  **2c. RESERVATION PAGE INITIALISATION — initReservationPage()**
   Runs automatically when the page finishes loading (via DOMContentLoaded).
   It first checks whether the restaurant dropdown exists on the page; if not,
   it exits immediately so the same listener is safe on all pages.
@@ -82,12 +79,12 @@ assignment2/
   3. Calls updateDeposit() so the deposit panel immediately reflects
      whichever restaurant is now shown in the dropdown.
 
-  **3d. DYNAMIC DEPOSIT DISPLAY — updateDeposit()**
+  **2d. DYNAMIC DEPOSIT DISPLAY — updateDeposit()**
   Called whenever the restaurant dropdown changes (onchange) or on page load.
   Reads the custom "data-deposit" attribute from the currently selected option and writes a human-readable message into the deposit display panel.
   Also stores the numeric deposit value in a hidden input field, so it is included when the form is submitted.
 
-  **3e. CONDITIONAL PAYMENT FIELDS — togglePaymentFields()**
+  **2e. CONDITIONAL PAYMENT FIELDS — togglePaymentFields()**
   Called via onchange on both deposit-method radio buttons (Voucher / Online).
   When "Voucher" is selected:
     - The voucher code section is shown (removes CSS class "hidden").
@@ -96,19 +93,19 @@ assignment2/
     - The credit card section is shown.
     - The voucher code section is hidden.
 
-  **3f. CARD TYPE HANDLING — updateCardPlaceholder()**
+  **2f. CARD TYPE HANDLING — updateCardPlaceholder()**
   Called via onchange on the card type select.
   - Visa and Mastercard require 16 digits: sets maxlength="16".
   - American Express requires 15 digits: sets maxlength="15".
   The placeholder text is also updated to match.
   The card number field is cleared whenever the card type changes to prevent a previously entered number of the wrong length from being submitted.
 
-  **3g. BILLING EMAIL COPY — copyEmail()**
+  **2g. BILLING EMAIL COPY — copyEmail()**
   Called via onchange on the "Same as email address" checkbox. When the checkbox is ticked: copies the value from the main email field
   into the billing email field and makes the billing field read-only (also changes the background colour to indicate it is not editable.
   When unticked: clears the billing email field and restores it to editable.
 
-  **3h. RESERVATION FORM VALIDATION — validateReservationForm()**
+  **2h. RESERVATION FORM VALIDATION — validateReservationForm()**
   Attached to the submit button via onclick="return validateReservationForm()".
   Returns true to allow the form to POST to the Mercury server, or false to
   block submission and display errors.
@@ -132,10 +129,10 @@ assignment2/
 
   If validation fails, the page scrolls smoothly to the first visible error message using scrollIntoView.
 
-**4. KNOWN ISSUES AND LIMITATIONS**
+**3. KNOWN ISSUES AND LIMITATIONS**
   - No backend or database is used. The registration form shows a success message via JavaScript only; no data is stored or verified server-side.
 
-**5. REFERENCES**
+**4. REFERENCES**
   Images:
   - Logo.png: Created by Dave Nguyen
   - images/Supernormal.jpg: *https://www.broadsheet.com.au/melbourne/restaurants/supernormal*
